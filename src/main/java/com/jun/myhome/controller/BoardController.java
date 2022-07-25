@@ -2,6 +2,7 @@ package com.jun.myhome.controller;
 
 import com.jun.myhome.model.Board;
 import com.jun.myhome.repository.BoardRepository;
+import com.jun.myhome.validator.BoardValidator;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private BoardValidator boardValidator;
 
     @GetMapping("/list")
     public String list(Model model){
@@ -39,6 +43,7 @@ public class BoardController {
 
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult){
+        boardValidator.validate(board, bindingResult);
         if (bindingResult.hasErrors()){
             return "board/form";
         }
