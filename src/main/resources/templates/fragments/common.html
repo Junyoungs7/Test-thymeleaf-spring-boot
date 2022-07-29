@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 
 <head th:fragment="head(title)">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${title}">스프링 부트 튜토리얼</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+    <link href="starter-template.css" th:href="@{/css/starter-template.css}" rel="stylesheet">
 </head>
 
 <body>
@@ -28,10 +30,16 @@
                 <!--                    <a class="nav-link disabled">Disabled</a>-->
                 <!--                </li>-->
             </ul>
-            <!--            <form class="d-flex" role="search">-->
-            <!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
-            <!--                <button class="btn btn-outline-success" type="submit">Search</button>-->
-            <!--            </form>-->
+            <a class="btn btn-outline-success" type="submit" th:href="@{/account/login}"
+               sec:authorize="!isAuthenticated()">Login</a>
+            <a class="btn btn-outline-success" type="submit" th:href="@{/account/register}"
+               sec:authorize="!isAuthenticated()">회원가입</a>
+
+            <form class="d-flex" role="search" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <span class="text-white mx-2" sec:authentication="name">사용자</span>
+                <span class="text-white mx-2" sec:authentication="principal.authorities">권한</span>
+                <button class="btn btn-outline-success" type="submit">Logout</button>
+            </form>
         </div>
     </div>
 </nav>
